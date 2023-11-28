@@ -1,0 +1,53 @@
+<% layout('layouts/boilerplate') -%>
+
+<section class="container">
+  <%- include('../partials/flash') %>
+
+  <div class="row products">
+    <%for(let product of products){%>
+    <div class="col-lg-4 mb-3">
+      <div class="card text-center shadow-sm mx-auto" style="width: 18rem">
+        <img src="<%=product.img%>" class="card-img-top" alt="item image" />
+        <span
+          class="badge rounded-pill bg-light text-dark w-25 position-absolute translate-middle-y"
+          style="top: 41%; left: 5%"
+          ><%=product.avgRating%> &star; | <%=product.reviews.length%></span
+        >
+        <div class="card-body">
+          <h5
+            class="card-title d-flex justify-content-between align-items-center"
+          >
+            <span><%= product.name %></span>
+            <span class="btn like-button" product-id=<%=product._id%>>
+            <% if (currentUser && currentUser.wishList.includes(product._id)) { %>
+              <i class="fas fa-heart"></i>
+              <% } else { %>
+                  <i class="far fa-heart"></i>
+                  <% } %>
+                </span>
+              </h5>
+          <p class="card-text"><%= product.desc.substring(0,100) %>...</p>
+          <% if(product.reviews.length){ %>
+          <p class="text-muted"><%=product.reviews.length%> reviews</p>
+          <%}else{%>
+          <p class="text-muted">No reviews</p>
+          <% } %>
+
+          <h6 class="card-title">
+            <span class="fw-lighter fs-6 text-decoration-line-through"
+              >$<%= 2*product.price %></span
+            >
+            $<%= product.price %>
+            <span class="fw-light fs-6 text-warning">( 50 % OFF )</span>
+          </h6>
+          <a href="/products/<%=product._id%>" class="btn btn-info btn-sm"
+            >Buy Now</a
+          >
+        </div>
+      </div>
+    </div>
+    <%}%>
+  </div>
+</section>
+
+<script src="/JS/common.js"></script>
